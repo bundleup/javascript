@@ -11,3 +11,12 @@ export interface BundleMetrics {
   modules: number;
   chunks: number;
 }
+
+export interface AuthenticationRequest {
+  integrationId: string;
+  externalId: string;
+}
+
+export interface AuthenticationResponse {
+  token: string;
+}
