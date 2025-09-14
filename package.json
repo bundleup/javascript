@@ -1,0 +1,23 @@
+{
+  "name": "@bundleup/javascript-monorepo",
+  "version": "1.0.0",
+  "description": "Official JavaScript repository for BundleUp - Turbo Monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "^1.10.0"
+  },
+  "packageManager": "npm@9.0.0",
+  "keywords": ["bundleup", "plugins", "framework", "javascript"],
+  "author": "BundleUp",
+  "license": "ISC"
+}
