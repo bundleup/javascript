@@ -10,17 +10,23 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.mjs",
+      "require": "./dist/react.js"
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup src/index.ts src/react.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts src/react.ts --format cjs,esm --dts --watch",
     "lint": "eslint src/",
     "test": "jest",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bundleup/common": "file:../common"
+    "@bundleup/common": "file:../common",
+    "@bundleup/react": "file:../react"
   },
   "peerDependencies": {
     "next": ">=13.0.0"
@@ -35,7 +41,6 @@
   "files": [
     "dist"
   ],
-  "keywords": ["bundleup", "nextjs", "plugin"],
   "author": "BundleUp",
   "license": "ISC"
 }

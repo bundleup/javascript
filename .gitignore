@@ -36,3 +36,6 @@ temp/
 # Logs
 logs/
 *.log
+
+# Turbo
+.turbo

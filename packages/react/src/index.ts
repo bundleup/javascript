@@ -1,46 +1,48 @@
-import { useEffect, useRef } from 'react';
-import { BundleUpCore, type BundleUpConfig, type PluginOptions } from '@bundleup/common';
+import { useCallback, useEffect, useState } from "react";
+import {
+  type AuthenticateWithPopupOptions,
+  authenticateWithPopup,
+} from "@bundleup/common/client";
 
-export interface ReactBundleUpOptions extends PluginOptions {
-  enableHooks?: boolean;
-  trackRendering?: boolean;
+import { logger } from "@bundleup/common/utils";
+
+type CallbackResponse = { success: true } | { success: false; error: Error };
+type CallbackFn = (response: CallbackResponse) => void;
+
+export function useBundleup(
+  callback: CallbackFn,
+  opts: AuthenticateWithPopupOptions = {}
+) {
+  const [options, setOptions] = useState(opts);
+
+  useEffect(() => {
+    setOptions(opts);
+  }, [opts]);
+
+  const log = useCallback(
+    (msg: string, ...args: any[]) => logger(!!options.debug)(msg, ...args),
+    [options.debug]
+  );
+
+  const start = useCallback(
+    (token: string) => {
+      if (!token) {
+        log("No token provided, skipping BundleUp authentication.");
+        return;
+      }
+
+      authenticateWithPopup(token, options)
+        .then(() => {
+          log("BundleUp authentication successful.");
+          callback({ success: true });
+        })
+        .catch((error) => {
+          log("BundleUp authentication failed:", error?.message || error);
+          callback({ success: false, error });
+        });
+    },
+    [options, callback]
+  );
+
+  return { start };
 }
-
-export class ReactBundleUpPlugin extends BundleUpCore {
-  constructor(options: ReactBundleUpOptions = {}) {
-    super(options.bundleUpConfig);
-  }
-
-  // React Hook for tracking component lifecycle
-  createTrackingHook() {
-    return function useBundleUpTracking(componentName: string) {
-      const renderCount = useRef(0);
-      
-      useEffect(() => {
-        renderCount.current += 1;
-        console.log(`[BundleUp React] ${componentName} rendered ${renderCount.current} times`);
-      });
-
-      return {
-        renderCount: renderCount.current,
-      };
-    };
-  }
-}
-
-export function createReactBundleUpPlugin(options: ReactBundleUpOptions = {}) {
-  return new ReactBundleUpPlugin(options);
-}
-
-// React Hook for BundleUp integration
-export function useBundleUp(config?: BundleUpConfig) {
-  const bundleUp = useRef<BundleUpCore>();
-  
-  if (!bundleUp.current) {
-    bundleUp.current = new BundleUpCore(config);
-  }
-
-  return bundleUp.current;
-}
-
-export * from '@bundleup/common';
