@@ -1,7 +1,7 @@
 "use server";
 
-import { BundleUp } from "@bundleup/common/server";
-import { isTrue } from "@bundleup/common/utils";
+import { BundleUp } from "@bundleup/core/server";
+import { isTrue } from "@bundleup/core/utils";
 
 export interface CreateConnectionParams {
   apiKey?: string;

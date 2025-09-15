@@ -1,7 +1,7 @@
 {
-  "name": "@bundleup/common",
+  "name": "@bundleup/core",
   "version": "1.0.0",
-  "description": "Common shared utilities for BundleUp framework plugins",
+  "description": "Core package for BundleUp",
   "exports": {
     "./client": {
       "types": "./dist/client.d.ts",

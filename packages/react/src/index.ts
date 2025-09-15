@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import {
   type AuthenticateWithPopupOptions,
   authenticateWithPopup,
-} from "@bundleup/common/client";
+} from "@bundleup/core/client";
 
-import { logger } from "@bundleup/common/utils";
+import { logger } from "@bundleup/core/utils";
 
 type CallbackResponse = { success: true } | { success: false; error: Error };
 type CallbackFn = (response: CallbackResponse) => void;

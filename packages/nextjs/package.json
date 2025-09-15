@@ -25,7 +25,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bundleup/common": "file:../common",
+    "@bundleup/core": "file:../core",
     "@bundleup/react": "file:../react"
   },
   "peerDependencies": {
