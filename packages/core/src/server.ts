@@ -12,7 +12,7 @@ export interface BundleUpResponse {
 }
 
 export interface ConnectionOptions {
-  externalId: string;
+  externalId?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -45,13 +45,6 @@ export class BundleUp {
       throw new Error("Integration ID is required to create a connection");
     }
 
-    const externalId = options?.externalId;
-
-    if (!externalId) {
-      this.log("Creating connection without external ID");
-      throw new Error("External ID is required in connection options");
-    }
-
     try {
       const response = await fetch("https://auth.bundleup.io/authorize", {
         method: "POST",
@@ -61,7 +54,7 @@ export class BundleUp {
         },
         body: JSON.stringify({
           integrationId,
-          externalId,
+          externalId: options.externalId ?? undefined,
           metadata: options.metadata ?? {},
         }),
       });

@@ -7,7 +7,7 @@ export interface CreateConnectionParams {
   apiKey?: string;
   debug?: boolean;
   integrationId: string;
-  externalId: string;
+  externalId?: string;
   metadata?: Record<string, unknown>;
 }
 
