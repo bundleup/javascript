@@ -1,4 +1,4 @@
-import { logger } from "./utils";
+import { logger } from './utils';
 
 export interface BundleUpConfig {
   apiKey?: string;
@@ -21,7 +21,7 @@ export class BundleUp {
 
   constructor(config: BundleUpConfig = {}) {
     if (!config.apiKey) {
-      throw new Error("API key is required for authentication");
+      throw new Error('API key is required for authentication');
     }
 
     this.config = {
@@ -36,45 +36,49 @@ export class BundleUp {
 
   public async createConnection(
     integrationId: string,
-    options: ConnectionOptions
+    options: ConnectionOptions,
   ) {
-    this.log(`Creating connection for integration: ${integrationId}`, options);
+    this.log(`Creating connection for integration: ${integrationId}`);
 
     if (!integrationId) {
-      this.log("Integration ID is missing");
-      throw new Error("Integration ID is required to create a connection");
+      this.log('Integration ID is missing');
+      throw new Error('Integration ID is required to create a connection');
     }
 
     try {
-      const response = await fetch("https://auth.bundleup.io/authorize", {
-        method: "POST",
+      const response = await fetch('https://auth.bundleup.io/authorize', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${this.config.apiKey}`,
         },
         body: JSON.stringify({
           integrationId,
-          externalId: options.externalId ?? undefined,
-          metadata: options.metadata ?? {},
+          externalId: options.externalId || undefined,
+          metadata: options.metadata || {},
         }),
       });
 
       if (!response.ok) {
-        this.log(`Authentication request failed: ${response.status} ${response.statusText}`);
-        throw new Error(`Authentication request failed: ${response.status} ${response.statusText}`);
+        this.log(
+          `Authentication request failed: ${response.status} ${response.statusText}`,
+        );
+        throw new Error(
+          `Authentication request failed: ${response.status} ${response.statusText}`,
+        );
       }
 
       const data: BundleUpResponse = await response.json();
-      
+
       if (!data.token) {
-        this.log("Invalid response: token not found");
-        throw new Error('Invalid response: token not found');
+        this.log('Invalid response: could not create token', data);
+        throw new Error('Invalid response: could not create token');
       }
 
       this.log('Authentication token received successfully');
       return data;
     } catch (error) {
-      this.log("Error creating connection", error);
+      this.log('Error creating connection', error);
       throw error;
     }
   }

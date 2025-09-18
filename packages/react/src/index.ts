@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
   type AuthenticateWithPopupOptions,
   authenticateWithPopup,
@@ -6,43 +6,35 @@ import {
 
 import { logger } from "@bundleup/core/utils";
 
-type CallbackResponse = { success: true } | { success: false; error: Error };
-type CallbackFn = (response: CallbackResponse) => void;
-
-export function useBundleup(
-  callback: CallbackFn,
-  opts: AuthenticateWithPopupOptions = {}
-) {
-  const [options, setOptions] = useState(opts);
-
-  useEffect(() => {
-    setOptions(opts);
-  }, [opts]);
-
+export function useBundleup(options: AuthenticateWithPopupOptions = {}) {
   const log = useCallback(
     (msg: string, ...args: any[]) => logger(!!options.debug)(msg, ...args),
-    [options.debug]
+    [options.debug],
   );
 
-  const start = useCallback(
-    (token: string) => {
+  const connect = useCallback(
+    async (token: string) => {
       if (!token) {
-        log("No token provided, skipping BundleUp authentication.");
+        log('No token provided, skipping BundleUp authentication.');
         return;
       }
 
-      authenticateWithPopup(token, options)
-        .then(() => {
-          log("BundleUp authentication successful.");
-          callback({ success: true });
-        })
-        .catch((error) => {
-          log("BundleUp authentication failed:", error?.message || error);
-          callback({ success: false, error });
-        });
+      try {
+        log('Starting BundleUp authentication with token:', token);
+
+        const result = await authenticateWithPopup(token, options);
+
+        log('BundleUp authentication successful:', result);
+
+        return { success: true, data: result };
+      } catch (error) {
+        log('Error occurred while starting authentication:', error);
+
+        return { success: false, error: error as Error };
+      }
     },
-    [options, callback]
+    [options, log],
   );
 
-  return { start };
+  return { connect };
 }
