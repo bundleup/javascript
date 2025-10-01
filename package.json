@@ -2,7 +2,6 @@
   "name": "@bundleup/javascript-monorepo",
   "version": "0.0.0",
   "description": "Official JavaScript repository for BundleUp - Turbo Monorepo",
-  "private": true,
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
