@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Core package for BundleUp",
   "exports": {
     "./client": {
