@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/nextjs",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "BundleUp plugin for Next.js applications",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
