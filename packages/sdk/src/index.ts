@@ -1,7 +1,7 @@
 import { Connections } from './connection';
 import { Integrations } from './integration';
 import { Webhooks } from './webhooks';
-import { BURequest } from './request';
+import { Request } from './request';
 
 export class BundleUp {
   private apiKey: string;
@@ -24,9 +24,9 @@ export class BundleUp {
 
   request(connectionId: string) {
     if (!connectionId) {
-      throw new Error('Connection ID is required to create a Request instance.');
+      throw new Error('Connection ID is required to create a Fetch instance.');
     }
 
-    return new BURequest(this.apiKey, connectionId);
+    return new Request(this.apiKey, connectionId);
   }
 }
