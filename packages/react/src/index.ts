@@ -16,7 +16,7 @@ export function useBundleup(options: AuthenticateWithPopupOptions = {}) {
     async (token: string) => {
       if (!token) {
         log('No token provided, skipping BundleUp authentication.');
-        return;
+        return { success: false, error: new Error('No token provided') };
       }
 
       try {
