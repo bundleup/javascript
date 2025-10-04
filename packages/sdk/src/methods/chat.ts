@@ -5,7 +5,13 @@ export type ChatMessageRequest = {
   content: string;
 };
 
-export class Chat extends Request {
+export class Chat {
+  private req: Request;
+
+  constructor(apiKey: string, connectionId: string) {
+    this.req = new Request(apiKey, connectionId);
+  }
+
   message({ channelId, content }: ChatMessageRequest) {
     if (!channelId) {
       throw new Error("Channel ID is required to send a chat message.");
@@ -15,7 +21,7 @@ export class Chat extends Request {
       throw new Error("Content is required to send a chat message.");
     }
 
-    return this.post(
+    return this.req.post(
       "/",
       { channelId, content },
       { "BU-Method": "chat.message" }

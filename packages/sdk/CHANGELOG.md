@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.4
+
+### Patch Changes
+
+- fixed the chat class
+
 ## 0.0.3
 
 ### Patch Changes
