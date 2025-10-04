@@ -1,7 +1,7 @@
 import { isObject } from "./utils";
 
 export class Request {
-  private baseUrl = "https://api.bundleup.com/v1";
+  private baseUrl = "https://req.bundleup.io";
 
   private get headers(): Record<string, string> {
     return {

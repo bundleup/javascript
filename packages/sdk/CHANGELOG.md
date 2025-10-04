@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.5
+
+### Patch Changes
+
+- fixed the request url
+
 ## 0.0.4
 
 ### Patch Changes
