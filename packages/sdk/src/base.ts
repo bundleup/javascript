@@ -1,27 +1,30 @@
+import { isObject } from "./utils";
+
 export abstract class Base<T> {
   protected abstract path: string;
-  protected apiKey: string;
-  protected baseUrl = 'https://api.bundleup.io';
-  protected version = 'v1';
+  private baseUrl = "https://api.bundleup.io";
+  private version = "v1";
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
+  constructor(private apiKey: string) {}
 
-  protected get apiUrl(): string {
+  private get apiUrl(): string {
     return `${this.baseUrl}/${this.version}`;
   }
 
-  protected get headers(): Record<string, string> {
+  private get headers(): Record<string, string> {
     return {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${this.apiKey}`,
     };
   }
 
-  async list<K extends Record<string, any>>(params: K = {} as K): Promise<T[]> {
+  public async list<K extends Record<string, any>>(params: K = {} as K): Promise<T[]> {
+    if (!isObject(params)) {
+      throw new Error("List parameters must be an object.");
+    }
+
     const response = await fetch(`${this.apiUrl}${this.path}`, {
-      method: 'GET',
+      method: "GET",
       headers: this.headers,
       body: JSON.stringify({
         ...params,
@@ -31,14 +34,18 @@ export abstract class Base<T> {
     if (!response.ok) {
       throw new Error(`Failed to fetch ${this.path}: ${response.statusText}`);
     }
-    
+
     const data = await response.json();
     return data as T[];
   }
 
-  async create<K extends Record<string, any>>(body: K): Promise<T> {
+  public async create<K extends Record<string, any>>(body: K): Promise<T> {
+    if (!isObject(body)) {
+      throw new Error("Request body must be an object.");
+    }
+
     const response = await fetch(`${this.apiUrl}${this.path}`, {
-      method: 'POST',
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify(body),
     });
@@ -51,43 +58,65 @@ export abstract class Base<T> {
     return data as T;
   }
 
-  async retrieve(id: string): Promise<T> {
+  public async retrieve(id: string): Promise<T> {
+    if (!id) {
+      throw new Error("ID is required to retrieve a resource.");
+    }
+
     const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: this.headers,
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to retrieve ${this.path}/${id}: ${response.statusText}`);
+      throw new Error(
+        `Failed to retrieve ${this.path}/${id}: ${response.statusText}`
+      );
     }
 
     const data = await response.json();
     return data as T;
   }
 
-  async update<K extends Record<string, any>>(id: string, body: K): Promise<T> {
+  public async update<K extends Record<string, any>>(id: string, body: K): Promise<T> {
+    if (!id) {
+      throw new Error("ID is required to update a resource.");
+    }
+    
+    if (!isObject(body)) {
+      throw new Error("Request body must be an object.");
+    }
+
     const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: this.headers,
       body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to update ${this.path}/${id}: ${response.statusText}`);
+      throw new Error(
+        `Failed to update ${this.path}/${id}: ${response.statusText}`
+      );
     }
 
     const data = await response.json();
     return data as T;
   }
 
-  async del(id: string): Promise<void> {
+  public async del(id: string): Promise<void> {
+    if (!id) {
+      throw new Error("ID is required to delete a resource.");
+    }
+
     const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: this.headers,
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to delete ${this.path}/${id}: ${response.statusText}`);
+      throw new Error(
+        `Failed to delete ${this.path}/${id}: ${response.statusText}`
+      );
     }
   }
 }
