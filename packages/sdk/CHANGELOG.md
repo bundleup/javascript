@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.6
+
+### Patch Changes
+
+- fixed the channel payload
+
 ## 0.0.5
 
 ### Patch Changes

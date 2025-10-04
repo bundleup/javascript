@@ -23,7 +23,7 @@ export class Chat {
 
     return this.req.post(
       "/",
-      { channelId, content },
+      { channel_id: channelId, content },
       { "BU-Method": "chat.message" }
     );
   }
