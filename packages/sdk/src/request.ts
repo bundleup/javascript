@@ -109,7 +109,7 @@ export class Request {
     });
   }
 
-  patch(
+  public patch(
     path: string,
     body: Record<string, any> = {},
     headers: Record<string, string> = {}

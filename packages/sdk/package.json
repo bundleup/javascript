@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/sdk",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "SDK package for BundleUp",
   "exports": {
     ".": {

@@ -1,10 +1,10 @@
 import { Base } from "./base";
 
 interface Integration {
-  id: true,
-  identifier: true,
-  createdAt: true,
-  updatedAt: true,
+  id: string;
+  identifier: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class Integrations extends Base<Integration> {

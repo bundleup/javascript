@@ -12,7 +12,15 @@ export class Chat {
     this.req = new Request(apiKey, connectionId);
   }
 
-  message({ channelId, content }: ChatMessageRequest) {
+  /**
+   * Send a chat message to a specific channel.
+   * @param params - The parameters for sending a chat message.
+   * @param params.channelId - The ID of the channel to send the message to.
+   * @param params.content - The content of the chat message.
+   * @returns The response from the API.
+   * @throws If channelId or content is missing.
+   */
+  public message({ channelId, content }: ChatMessageRequest) {
     if (!channelId) {
       throw new Error("Channel ID is required to send a chat message.");
     }

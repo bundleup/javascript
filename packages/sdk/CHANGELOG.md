@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.7
+
+### Patch Changes
+
+- added comment blocks
+
 ## 0.0.6
 
 ### Patch Changes
