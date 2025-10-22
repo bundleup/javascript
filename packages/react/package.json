@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "BundleUp plugin for React applications",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -20,7 +20,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bundleup/core": "0.0.3"
+    "@bundleup/core": "0.0.4"
   },
   "peerDependencies": {
     "react": ">=16.8.0"

@@ -1,5 +1,11 @@
 # @bundleup/core
 
+## 0.0.4
+
+### Patch Changes
+
+- added error name
+
 ## 0.0.3
 
 ### Patch Changes

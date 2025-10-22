@@ -1,5 +1,12 @@
 # @bundleup/react
 
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @bundleup/core@0.0.4
+
 ## 0.0.4
 
 ### Patch Changes
