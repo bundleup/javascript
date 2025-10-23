@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Core package for BundleUp",
   "exports": {
     "./client": {
@@ -27,14 +27,17 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "tsup": "^7.0.0",
-    "typescript": "^5.0.0",
     "eslint": "^8.0.0",
-    "jest": "^29.0.0"
+    "jest": "^29.0.0",
+    "tsup": "^7.0.0",
+    "typescript": "^5.0.0"
   },
   "files": [
     "dist"
   ],
   "author": "BundleUp",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@bundleup/sdk": "^0.0.8"
+  }
 }
