@@ -7,11 +7,11 @@ export abstract class Base<T> {
 
   constructor(private apiKey: string) {}
 
-  private get apiUrl(): string {
+  protected get apiUrl(): string {
     return `${this.baseUrl}/${this.version}`;
   }
 
-  private get headers(): Record<string, string> {
+  protected get headers(): Record<string, string> {
     return {
       "Content-Type": "application/json",
       Authorization: `Bearer ${this.apiKey}`,
@@ -24,7 +24,9 @@ export abstract class Base<T> {
    * @returns A promise that resolves to an array of resources.
    * @throws If params is not an object or if the fetch request fails.
    */
-  public async list<K extends Record<string, any>>(params: K = {} as K): Promise<T[]> {
+  public async list<K extends Record<string, any>>(
+    params: K = {} as K
+  ): Promise<T[]> {
     if (!isObject(params)) {
       throw new Error("List parameters must be an object.");
     }
@@ -103,11 +105,14 @@ export abstract class Base<T> {
    * @returns A promise that resolves to the updated resource.
    * @throws If id is not provided, if body is not an object, or if the fetch request fails.
    */
-  public async update<K extends Record<string, any>>(id: string, body: K): Promise<T> {
+  public async update<K extends Record<string, any>>(
+    id: string,
+    body: K
+  ): Promise<T> {
     if (!id) {
       throw new Error("ID is required to update a resource.");
     }
-    
+
     if (!isObject(body)) {
       throw new Error("Request body must be an object.");
     }

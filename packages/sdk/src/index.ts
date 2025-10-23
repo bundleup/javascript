@@ -2,6 +2,7 @@ import { Connections } from "./connection";
 import { Integrations } from "./integration";
 import { Webhooks } from "./webhooks";
 import { Request } from "./request";
+import { Sessions } from "./session";
 import { Chat } from "./methods/chat";
 
 export class BundleUp {
@@ -25,6 +26,10 @@ export class BundleUp {
 
   get webhooks() {
     return new Webhooks(this.apiKey);
+  }
+
+  get sessions() {
+    return new Sessions(this.apiKey);
   }
 
   connect(connectionId: string) {
