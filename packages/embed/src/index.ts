@@ -20,10 +20,6 @@ type EmbedEventData = {
         return;
       }
 
-      // set the iframe attributes
-      iframe.dataset.embedderId = data.id;
-      iframe.dataset.embedderProvider = data.provider;
-
       iframe.setAttribute("scrolling", "no");
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("allow", "autoplay; fullscreen");
@@ -34,25 +30,8 @@ type EmbedEventData = {
       iframe.style.border = "none";
       iframe.style.display = "block";
 
-      iframe.classList.add("embedder-iframe");
-      iframe.classList.add(`embedder-iframe--${data.provider}`);
-
-      // create a wrapper
-      const wrapper = document.createElement("div");
-
-      wrapper.dataset.embedderId = data.id;
-      wrapper.dataset.embedderProvider = data.provider;
-
-      wrapper.style.position = "relative";
-      wrapper.classList.add("embedder-wrapper");
-      wrapper.classList.add(`embedder-wrapper--${data.provider}`);
-
-      // insert the wrapper before the iframe
-      const parent = iframe.parentNode!;
-      parent.insertBefore(wrapper, iframe);
-
-      // move the iframe into the wrapper
-      wrapper.appendChild(iframe);
+      iframe.classList.add("bundleup-iframe");
+      iframe.classList.add(`bundleup-iframe--${data.provider}`);
     });
 
     // store the iframes
