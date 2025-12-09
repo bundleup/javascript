@@ -7,7 +7,7 @@ export class Request {
     return {
       "Content-Type": "application/json",
       Authorization: `Bearer ${this.apiKey}`,
-      "BU-Connection-Id": this.connectionId,
+      "Connection-Id": this.connectionId,
     };
   }
 

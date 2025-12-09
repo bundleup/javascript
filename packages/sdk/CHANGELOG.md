@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.9
+
+### Patch Changes
+
+- rename connection-id
+
 ## 0.0.8
 
 ### Patch Changes
