@@ -1,5 +1,11 @@
 # @bundleup/core
 
+## 0.0.7
+
+### Patch Changes
+
+- fixed the auth url
+
 ## 0.0.6
 
 ### Patch Changes

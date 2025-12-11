@@ -38,7 +38,7 @@ export function authenticateWithPopup(
 
     // Open the popup window
     const popup = window.open(
-      `https://auth.bundleup.io/${token}`,
+      `https://auth.bundleup.io/authorize?token=${token}`,
       "bundleup-auth",
       `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
     );
