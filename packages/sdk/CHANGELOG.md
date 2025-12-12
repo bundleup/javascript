@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.10
+
+### Patch Changes
+
+- added prefix back
+
 ## 0.0.9
 
 ### Patch Changes
