@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/nextjs",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "BundleUp plugin for Next.js applications",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,8 +25,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bundleup/core": "0.0.8",
-    "@bundleup/react": "0.0.10"
+    "@bundleup/core": "0.0.9",
+    "@bundleup/react": "0.0.11"
   },
   "peerDependencies": {
     "next": ">=13.0.0"

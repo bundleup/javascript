@@ -11,5 +11,5 @@ interface Webhook {
 }
 
 export class Webhooks extends Base<Webhook> {
-  protected path = "/webhooks";
+  protected namespace = "webhooks";
 }

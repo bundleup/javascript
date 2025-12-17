@@ -1,14 +1,28 @@
 import { isObject } from "./utils";
 
 export abstract class Base<T> {
-  protected abstract path: string;
+  protected abstract namespace: string;
   private baseUrl = "https://api.bundleup.io";
   private version = "v1";
 
   constructor(private apiKey: string) {}
 
-  protected get apiUrl(): string {
-    return `${this.baseUrl}/${this.version}`;
+  private buildUrl(
+    path?: string | null,
+    searchParams: Record<string, any> = {}
+  ): URL {
+    if (!isObject(searchParams)) {
+      throw new Error("URL search params must be an object.");
+    }
+
+    const parts = [this.version, this.namespace, path]
+      .filter(Boolean)
+      .join("/");
+
+    const url = new URL(parts, this.baseUrl);
+    url.search = new URLSearchParams(searchParams).toString();
+
+    return url;
   }
 
   protected get headers(): Record<string, string> {
@@ -20,27 +34,28 @@ export abstract class Base<T> {
 
   /**
    * List resources with optional query parameters.
-   * @param params - Query parameters for filtering the list.
+   * @param searchParams - Query parameters for filtering the list.
    * @returns A promise that resolves to an array of resources.
    * @throws If params is not an object or if the fetch request fails.
    */
   public async list<K extends Record<string, any>>(
-    params: K = {} as K
+    searchParams: K = {} as K
   ): Promise<T[]> {
-    if (!isObject(params)) {
+    if (!isObject(searchParams)) {
       throw new Error("List parameters must be an object.");
     }
 
-    const response = await fetch(`${this.apiUrl}${this.path}`, {
+    const url = this.buildUrl(null, searchParams);
+
+    const response = await fetch(url, {
       method: "GET",
       headers: this.headers,
-      body: JSON.stringify({
-        ...params,
-      }),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${this.path}: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch ${url.toString()}: ${response.statusText}`
+      );
     }
 
     const data = await response.json();
@@ -58,14 +73,18 @@ export abstract class Base<T> {
       throw new Error("Request body must be an object.");
     }
 
-    const response = await fetch(`${this.apiUrl}${this.path}`, {
+    const url = this.buildUrl(null);
+
+    const response = await fetch(url, {
       method: "POST",
       headers: this.headers,
       body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to create ${this.path}: ${response.statusText}`);
+      throw new Error(
+        `Failed to create ${url.toString()}: ${response.statusText}`
+      );
     }
 
     const data = await response.json();
@@ -83,14 +102,16 @@ export abstract class Base<T> {
       throw new Error("ID is required to retrieve a resource.");
     }
 
-    const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
+    const url = this.buildUrl(id);
+
+    const response = await fetch(url, {
       method: "GET",
       headers: this.headers,
     });
 
     if (!response.ok) {
       throw new Error(
-        `Failed to retrieve ${this.path}/${id}: ${response.statusText}`
+        `Failed to retrieve ${url.toString()}: ${response.statusText}`
       );
     }
 
@@ -117,7 +138,9 @@ export abstract class Base<T> {
       throw new Error("Request body must be an object.");
     }
 
-    const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
+    const url = this.buildUrl(id);
+
+    const response = await fetch(url, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify(body),
@@ -125,7 +148,7 @@ export abstract class Base<T> {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to update ${this.path}/${id}: ${response.statusText}`
+        `Failed to update ${url.toString()}: ${response.statusText}`
       );
     }
 
@@ -144,14 +167,16 @@ export abstract class Base<T> {
       throw new Error("ID is required to delete a resource.");
     }
 
-    const response = await fetch(`${this.apiUrl}${this.path}/${id}`, {
+    const url = this.buildUrl(id);
+
+    const response = await fetch(url, {
       method: "DELETE",
       headers: this.headers,
     });
 
     if (!response.ok) {
       throw new Error(
-        `Failed to delete ${this.path}/${id}: ${response.statusText}`
+        `Failed to delete ${url.toString()}: ${response.statusText}`
       );
     }
   }

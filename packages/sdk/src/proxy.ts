@@ -1,7 +1,7 @@
 import { isObject } from "./utils";
 
-export class Request {
-  private baseUrl = "https://req.bundleup.io";
+export class Proxy {
+  private baseUrl = "https://proxy.bundleup.io";
 
   private get headers(): Record<string, string> {
     return {

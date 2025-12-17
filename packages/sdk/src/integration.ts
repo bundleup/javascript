@@ -8,5 +8,5 @@ interface Integration {
 }
 
 export class Integrations extends Base<Integration> {
-  protected path = "/integrations";
+  protected namespace = "integrations";
 }

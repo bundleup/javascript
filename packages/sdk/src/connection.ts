@@ -12,5 +12,5 @@ interface Connection {
 }
 
 export class Connections extends Base<Connection> {
-  protected path = "/connections";
+  protected namespace = "connections";
 }
