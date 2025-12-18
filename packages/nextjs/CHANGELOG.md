@@ -1,5 +1,12 @@
 # @bundleup/nextjs
 
+## 0.0.13
+
+### Patch Changes
+
+- @bundleup/core@0.0.11
+- @bundleup/react@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

@@ -6,8 +6,8 @@ interface SessionCreateRequest {
 }
 
 interface SessionCreateResponse {
-  url: string;
   token: string;
+  auth_url: string;
   expires_in: number;
   external_id?: string;
 }

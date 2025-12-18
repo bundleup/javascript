@@ -60,8 +60,8 @@ export class BundleUp {
 
       this.log("Authentication token received successfully");
       return {
-        url: data.url,
         token: data.token,
+        url: data.auth_url,
         expiresIn: data.expires_in,
         externalId: data.external_id,
       };
