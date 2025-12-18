@@ -1,5 +1,13 @@
 # @bundleup/core
 
+## 0.0.10
+
+### Patch Changes
+
+- fix: added redirectUri
+- Updated dependencies
+  - @bundleup/sdk@0.0.12
+
 ## 0.0.9
 
 ### Patch Changes

@@ -2,12 +2,14 @@ interface SessionCreateRequest {
   integrationId: string;
   externalId?: string;
   metadata?: Record<string, any>;
+  redirectUri?: string;
 }
 
 interface SessionCreateResponse {
-  expires_in: number;
+  url: string;
   token: string;
-  externalId?: string;
+  expires_in: number;
+  external_id?: string;
 }
 
 export class Sessions {

@@ -1,6 +1,6 @@
 {
   "name": "@bundleup/core",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Core package for BundleUp",
   "exports": {
     "./client": {
@@ -38,6 +38,6 @@
   "author": "BundleUp",
   "license": "ISC",
   "dependencies": {
-    "@bundleup/sdk": "^0.0.11"
+    "@bundleup/sdk": "^0.0.12"
   }
 }

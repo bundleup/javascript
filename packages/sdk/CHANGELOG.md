@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.12
+
+### Patch Changes
+
+- fix: added redirectUri
+
 ## 0.0.11
 
 ### Patch Changes

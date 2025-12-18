@@ -8,12 +8,13 @@ export interface BundleUpConfig {
 
 export interface BundleUpResponse {
   token: string;
-  expires_in: number;
+  expiresIn: number;
   externalId: string;
 }
 
 export interface ConnectionOptions {
   externalId?: string;
+  redirectUri?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -47,6 +48,7 @@ export class BundleUp {
     try {
       const data = await this.client.sessions.create({
         integrationId,
+        redirectUri: options.redirectUri,
         externalId: options.externalId,
         metadata: options.metadata,
       });
@@ -58,9 +60,10 @@ export class BundleUp {
 
       this.log("Authentication token received successfully");
       return {
+        url: data.url,
         token: data.token,
-        expires_in: data.expires_in,
-        externalId: data.externalId,
+        expiresIn: data.expires_in,
+        externalId: data.external_id,
       };
     } catch (error) {
       this.log("Error creating connection", error);
