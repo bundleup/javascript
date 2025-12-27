@@ -7,7 +7,7 @@ export abstract class Base<T> {
 
   constructor(private apiKey: string) {}
 
-  private buildUrl(
+  protected buildUrl(
     path?: string | null,
     searchParams: Record<string, any> = {}
   ): URL {
