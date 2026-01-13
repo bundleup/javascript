@@ -1,5 +1,12 @@
 # @bundleup/core
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @bundleup/sdk@0.0.15
+
 ## 0.0.12
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.15
+
+### Patch Changes
+
+- fix: fixed the response metadata key
+
 ## 0.0.14
 
 ### Patch Changes

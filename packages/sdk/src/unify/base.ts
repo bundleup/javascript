@@ -9,9 +9,8 @@ export interface Params {
 export interface Response<T> {
   data: T;
   _raw?: any;
-  pageInfo: {
+  metadata: {
     next: string | null;
-    limit: number;
   };
 }
 
