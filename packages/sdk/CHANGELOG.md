@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.16
+
+### Patch Changes
+
+- fix: added releases and issues
+
 ## 0.0.15
 
 ### Patch Changes

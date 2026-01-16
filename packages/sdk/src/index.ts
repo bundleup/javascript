@@ -7,6 +7,7 @@ import { Sessions } from "./session";
 // Unify imports
 import { Chat } from "./unify/chat";
 import { Git } from "./unify/git";
+import { PM } from "./unify/pm";
 
 export class BundleUp {
   private apiKey: string;
@@ -73,6 +74,7 @@ export class BundleUp {
     return {
       chat: new Chat(this.apiKey, connectionId),
       git: new Git(this.apiKey, connectionId),
+      pm: new PM(this.apiKey, connectionId),
     };
   }
 }

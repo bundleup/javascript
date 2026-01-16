@@ -1,17 +1,17 @@
 import { Base, type Params, type Response } from "./base";
 
-export class Chat extends Base {
-  protected namespace = "chat";
+export class PM extends Base {
+  protected namespace = "pm";
 
   /**
-   * Fetch chat channels
-   * @param limit - Maximum number of channels to retrieve.
+   * Fetch issues
+   * @param limit - Maximum number of issues to retrieve.
    * @param after - Cursor for pagination.
    * @param includeRaw - Whether to include raw response data.
    * @returns A promise that resolves to the fetch response.
    */
-  async channels({ limit = 100, after, includeRaw }: Params = {}) {
-    const url = this.buildUrl("channels", { limit, after });
+  async issues({ limit = 100, after, includeRaw }: Params = {}) {
+    const url = this.buildUrl("issues", { limit, after });
 
     const response = await fetch(url, {
       headers: {
@@ -30,7 +30,12 @@ export class Chat extends Base {
     return data as Response<
       Array<{
         id: string;
-        name: string;
+        url: string;
+        title: string;
+        status: string;
+        description: string | null;
+        created_at: string;
+        updated_at: string;
       }>
     >;
   }

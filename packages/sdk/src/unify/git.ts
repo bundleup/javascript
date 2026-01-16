@@ -8,7 +8,7 @@ export class Git extends Base {
   protected namespace = "git";
 
   /**
-   * Fetch repositories with optional query parameters.
+   * Fetch repositories
    * @param limit - Maximum number of repositories to retrieve.
    * @param after - Cursor for pagination.
    * @param includeRaw - Whether to include raw response data.
@@ -26,7 +26,7 @@ export class Git extends Base {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`
+        `Failed to fetch ${url.toString()}: ${response.statusText}`,
       );
     }
 
@@ -37,8 +37,10 @@ export class Git extends Base {
         name: string;
         full_name: string;
         description: string | null;
+        url: string;
         created_at: string;
         updated_at: string;
+        pushed_at: string;
       }>
     >;
   }
@@ -71,7 +73,7 @@ export class Git extends Base {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`
+        `Failed to fetch ${url.toString()}: ${response.statusText}`,
       );
     }
 
@@ -81,7 +83,11 @@ export class Git extends Base {
         id: string;
         number: number;
         title: string;
+        description: string | null;
+        draft: boolean;
         state: string;
+        url: string;
+        user: string;
         created_at: string;
         updated_at: string;
         merged_at: string | null;
@@ -117,7 +123,7 @@ export class Git extends Base {
 
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`
+        `Failed to fetch ${url.toString()}: ${response.statusText}`,
       );
     }
 
@@ -126,6 +132,56 @@ export class Git extends Base {
       Array<{
         name: string;
         commit_sha: string;
+      }>
+    >;
+  }
+
+  /**
+   * Fetch releases for a specific repository.
+   * @param repoName - The name of the repository.
+   * @param limit - Maximum number of releases to retrieve.
+   * @param after - Cursor for pagination.
+   * @param includeRaw - Whether to include raw response data.
+   * @returns A promise that resolves to the fetch response.
+   * @throws If repoName is not provided.
+   */
+  async releases({ repoName, limit = 100, after, includeRaw }: RepoParams) {
+    if (!repoName) {
+      throw new Error("repoName is required to fetch releases.");
+    }
+
+    const url = this.buildUrl(
+      `repos/${encodeURIComponent(repoName)}/releases`,
+      {
+        limit,
+        after,
+      },
+    );
+
+    const response = await fetch(url, {
+      headers: {
+        ...this.headers,
+        "BU-Include-Raw": includeRaw ? "true" : "false",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${url.toString()}: ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+    return data as Response<
+      Array<{
+        id: string;
+        name: string;
+        tag_name: string;
+        description: string | null;
+        prerelease: boolean;
+        url: string;
+        created_at: string;
+        released_at: string | null;
       }>
     >;
   }
