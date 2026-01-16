@@ -30,7 +30,7 @@ export abstract class Base {
 
   protected buildUrl(
     path?: string | null,
-    searchParams: Record<string, any> = {}
+    searchParams: Record<string, any> = {},
   ): URL {
     if (!isObject(searchParams)) {
       throw new Error("URL search params must be an object.");
@@ -40,11 +40,24 @@ export abstract class Base {
       .filter(Boolean)
       .join("/");
 
+    searchParams = Object.entries(searchParams).reduce(
+      (acc, [key, value]) => {
+        if (value !== undefined && value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
+
     const url = new URL(parts, this.baseUrl);
     url.search = new URLSearchParams(searchParams).toString();
 
     return url;
   }
 
-  constructor(private apiKey: string, private connectionId: string) {}
+  constructor(
+    private apiKey: string,
+    private connectionId: string,
+  ) {}
 }
