@@ -8,7 +8,7 @@ export interface AuthenticateWithPopupOptions {
 
 export function authenticateWithPopup(
   token: string,
-  options: AuthenticateWithPopupOptions = {}
+  options: AuthenticateWithPopupOptions = {},
 ): Promise<Record<string, any>> {
   return new Promise((resolve, reject) => {
     if (!token) {
@@ -29,8 +29,8 @@ export function authenticateWithPopup(
 
       return reject(
         new Error(
-          "authenticateWithPopup can only be used in a client environment"
-        )
+          "authenticateWithPopup can only be used in a client environment",
+        ),
       );
     }
 
@@ -40,13 +40,13 @@ export function authenticateWithPopup(
     const popup = window.open(
       `https://auth.bundleup.io/authorize?token=${token}`,
       "bundleup-auth",
-      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`,
     );
 
     if (!popup) {
       log("Failed to open popup window. Please check popup blocker settings.");
       const error = new Error(
-        "Failed to open popup window. Please check popup blocker settings."
+        "Failed to open popup window. Please check popup blocker settings.",
       );
       error.name = "POPUP_BLOCKED";
 
@@ -91,7 +91,7 @@ export function authenticateWithPopup(
       cleanup();
       log("Authentication popup closed by user");
       reject(error);
-    }, 1000);
+    }, 2000);
 
     // Cleanup function to remove event listeners and intervals
     const cleanup = () => {
