@@ -1,5 +1,11 @@
 # @bundleup/core
 
+## 0.0.16
+
+### Patch Changes
+
+- increase the timeout check
+
 ## 0.0.15
 
 ### Patch Changes

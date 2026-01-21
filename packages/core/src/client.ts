@@ -91,7 +91,7 @@ export function authenticateWithPopup(
       cleanup();
       log("Authentication popup closed by user");
       reject(error);
-    }, 2000);
+    }, 3000);
 
     // Cleanup function to remove event listeners and intervals
     const cleanup = () => {
