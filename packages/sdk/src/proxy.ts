@@ -11,9 +11,15 @@ export class Proxy {
     };
   }
 
-  constructor(private apiKey: string, private connectionId: string) {}
+  constructor(
+    private apiKey: string,
+    private connectionId: string,
+  ) {}
 
-  private buildUrl(path: string, searchParams: Record<string, any> = {}): URL {
+  private buildUrl(
+    path: string,
+    searchParams: Record<string, string> = {},
+  ): URL {
     if (!path) {
       throw new Error("Path is required to build URL.");
     }
@@ -34,8 +40,8 @@ export class Proxy {
 
   public get(
     path: string,
-    searchParams: Record<string, any> = {},
-    headers: Record<string, string> = {}
+    searchParams: Record<string, string> = {},
+    headers: Record<string, string> = {},
   ) {
     if (!path) {
       throw new Error("Path is required for GET request.");
@@ -59,8 +65,8 @@ export class Proxy {
 
   public post(
     path: string,
-    body: Record<string, any> = {},
-    headers: Record<string, string> = {}
+    body: BodyInit,
+    headers: Record<string, string> = {},
   ) {
     if (!path) {
       throw new Error("Path is required for POST request.");
@@ -70,23 +76,19 @@ export class Proxy {
       throw new Error("Headers must be an object.");
     }
 
-    if (!isObject(body)) {
-      throw new Error("Request body must be an object.");
-    }
-
     const url = this.buildUrl(path);
 
     return fetch(url, {
+      body,
       method: "POST",
       headers: { ...this.headers, ...headers },
-      body: JSON.stringify(body),
     });
   }
 
   public put(
     path: string,
-    body: Record<string, any> = {},
-    headers: Record<string, string> = {}
+    body: BodyInit,
+    headers: Record<string, string> = {},
   ) {
     if (!path) {
       throw new Error("Path is required for PUT request.");
@@ -96,23 +98,19 @@ export class Proxy {
       throw new Error("Headers must be an object.");
     }
 
-    if (!isObject(body)) {
-      throw new Error("Request body must be an object.");
-    }
-
     const url = this.buildUrl(path);
 
     return fetch(url, {
+      body,
       method: "PUT",
       headers: { ...this.headers, ...headers },
-      body: JSON.stringify(body),
     });
   }
 
   public patch(
     path: string,
-    body: Record<string, any> = {},
-    headers: Record<string, string> = {}
+    body: BodyInit,
+    headers: Record<string, string> = {},
   ) {
     if (!path) {
       throw new Error("Path is required for PATCH request.");
@@ -122,16 +120,12 @@ export class Proxy {
       throw new Error("Headers must be an object.");
     }
 
-    if (!isObject(body)) {
-      throw new Error("Request body must be an object.");
-    }
-
     const url = this.buildUrl(path);
 
     return fetch(url, {
+      body,
       method: "PATCH",
       headers: { ...this.headers, ...headers },
-      body: JSON.stringify(body),
     });
   }
 

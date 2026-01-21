@@ -8,7 +8,7 @@ export interface Params {
 
 export interface Response<T> {
   data: T;
-  _raw?: any;
+  _raw?: unknown;
   metadata: {
     next: string | null;
   };
@@ -30,7 +30,7 @@ export abstract class Base {
 
   protected buildUrl(
     path?: string | null,
-    searchParams: Record<string, any> = {},
+    searchParams: Record<string, string> = {},
   ): URL {
     if (!isObject(searchParams)) {
       throw new Error("URL search params must be an object.");
@@ -47,7 +47,7 @@ export abstract class Base {
         }
         return acc;
       },
-      {} as Record<string, any>,
+      {} as Record<string, string>,
     );
 
     const url = new URL(parts, this.baseUrl);

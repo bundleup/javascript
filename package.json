@@ -16,10 +16,20 @@
     "packages/*"
   ],
   "devDependencies": {
-    "turbo": "^1.10.0"
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.0",
+    "prettier-plugin-packagejson": "^3.0.0",
+    "turbo": "^1.10.0",
+    "typescript-eslint": "^8.53.1"
   },
   "packageManager": "npm@9.0.0",
-  "keywords": ["bundleup", "plugins", "framework", "javascript"],
+  "keywords": [
+    "bundleup",
+    "plugins",
+    "framework",
+    "javascript"
+  ],
   "author": "BundleUp",
   "license": "ISC"
 }

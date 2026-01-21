@@ -2,9 +2,8 @@ import { Connections } from "./connection";
 import { Integrations } from "./integration";
 import { Webhooks } from "./webhooks";
 import { Proxy } from "./proxy";
-import { Sessions } from "./session";
 
-// Unify imports
+// Unify API
 import { Chat } from "./unify/chat";
 import { Git } from "./unify/git";
 import { PM } from "./unify/pm";
@@ -39,13 +38,6 @@ export class BundleUp {
    */
   get webhooks() {
     return new Webhooks(this.apiKey);
-  }
-
-  /**
-   * Access the Sessions resource.
-   */
-  get sessions() {
-    return new Sessions(this.apiKey);
   }
 
   /**

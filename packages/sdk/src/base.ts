@@ -9,7 +9,7 @@ export abstract class Base<T> {
 
   protected buildUrl(
     path?: string | null,
-    searchParams: Record<string, any> = {},
+    searchParams: Record<string, string> = {},
   ): URL {
     if (!isObject(searchParams)) {
       throw new Error("URL search params must be an object.");
@@ -26,7 +26,7 @@ export abstract class Base<T> {
         }
         return acc;
       },
-      {} as Record<string, any>,
+      {} as Record<string, string>,
     );
 
     const url = new URL(parts, this.baseUrl);
@@ -48,7 +48,7 @@ export abstract class Base<T> {
    * @returns A promise that resolves to an array of resources.
    * @throws If params is not an object or if the fetch request fails.
    */
-  public async list<K extends Record<string, any>>(
+  public async list<K extends Record<string, string>>(
     searchParams: K = {} as K,
   ): Promise<T[]> {
     if (!isObject(searchParams)) {
@@ -78,7 +78,7 @@ export abstract class Base<T> {
    * @returns A promise that resolves to the created resource.
    * @throws If body is not an object or if the fetch request fails.
    */
-  public async create<K extends Record<string, any>>(body: K): Promise<T> {
+  public async create<K extends Record<string, unknown>>(body: K): Promise<T> {
     if (!isObject(body)) {
       throw new Error("Request body must be an object.");
     }
@@ -136,7 +136,7 @@ export abstract class Base<T> {
    * @returns A promise that resolves to the updated resource.
    * @throws If id is not provided, if body is not an object, or if the fetch request fails.
    */
-  public async update<K extends Record<string, any>>(
+  public async update<K extends Record<string, unknown>>(
     id: string,
     body: K,
   ): Promise<T> {
