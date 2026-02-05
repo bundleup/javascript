@@ -1,11 +1,16 @@
 export default function Home() {
+  const url = `https://auth.bundleup.io/authorize?
+client_id=${process.env.NEXT_PUBLIC_BUNDLEUP_CLIENT_ID}
+&integration_id=${process.env.NEXT_PUBLIC_BUNDLEUP_INTEGRATION_ID}
+&redirect_uri=${encodeURIComponent(`http://localhost:3000/callback`)}`;
+
   return (
-    <div className="flex items-center justify-center p-4">
+    <div className='flex items-center justify-center p-4'>
       <a
-        href={`https://auth.bundleup.io/authorize?client_id=${process.env.NEXT_PUBLIC_BUNDLEUP_CLIENT_ID}&integration_id=slack&redirect_uri=${encodeURIComponent(`http://localhost:3000/callback`)}`}
-        className="flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
+        href={url}
+        className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium'
       >
-        Connect Slack
+        Connect GitHub
       </a>
     </div>
   );
