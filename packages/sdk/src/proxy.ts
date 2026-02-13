@@ -33,7 +33,6 @@ export class Proxy {
     }
 
     const url = new URL(path, this.baseUrl);
-    
     // Only override search params if explicitly provided
     if (searchParams !== undefined) {
       url.search = new URLSearchParams(searchParams).toString();
