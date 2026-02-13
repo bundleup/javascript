@@ -40,7 +40,6 @@ export class Proxy {
 
   public get(
     path: string,
-    searchParams: Record<string, string> = {},
     headers: Record<string, string> = {},
   ) {
     if (!path) {
@@ -51,11 +50,7 @@ export class Proxy {
       throw new Error("Headers must be an object.");
     }
 
-    if (!isObject(searchParams)) {
-      throw new Error("URL search params must be an object.");
-    }
-
-    const url = this.buildUrl(path, searchParams);
+    const url = this.buildUrl(path);
 
     return fetch(url, {
       method: "GET",

@@ -272,7 +272,7 @@ When using the Proxy API, you can pass custom headers:
 
 ```javascript
 const proxy = client.proxy('conn_123');
-const response = await proxy.get('/api/users', {}, {
+const response = await proxy.get('/api/users', {
   'X-Custom-Header': 'value'
 });
 ```

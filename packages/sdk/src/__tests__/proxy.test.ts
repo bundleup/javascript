@@ -56,7 +56,7 @@ describe("Proxy", () => {
         json: async () => ({}),
       });
 
-      await proxy.get("/users", { page: "1", limit: "10" });
+      await proxy.get("/users?page=1&limit=10");
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
       expect(callUrl.toString()).toContain("page=1");
@@ -69,7 +69,7 @@ describe("Proxy", () => {
         json: async () => ({}),
       });
 
-      await proxy.get("/users", {}, { "X-Custom": "header" });
+      await proxy.get("/users", { "X-Custom": "header" });
 
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
@@ -87,14 +87,8 @@ describe("Proxy", () => {
     });
 
     it("should throw error if headers is not an object", () => {
-      expect(() => proxy.get("/users", {}, "invalid" as any)).toThrow(
-        "Headers must be an object."
-      );
-    });
-
-    it("should throw error if searchParams is not an object", () => {
       expect(() => proxy.get("/users", "invalid" as any)).toThrow(
-        "URL search params must be an object."
+        "Headers must be an object."
       );
     });
   });
@@ -281,7 +275,7 @@ describe("Proxy", () => {
         json: async () => ({}),
       });
 
-      await proxy.get("/users", { filter: "active", sort: "name" });
+      await proxy.get("/users?filter=active&sort=name");
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
       expect(callUrl.searchParams.get("filter")).toBe("active");
