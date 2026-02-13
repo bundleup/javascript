@@ -18,13 +18,13 @@ export class Proxy {
 
   private buildUrl(
     path: string,
-    searchParams: Record<string, string> = {},
+    searchParams?: Record<string, string>,
   ): URL {
     if (!path) {
       throw new Error("Path is required to build URL.");
     }
 
-    if (!isObject(searchParams)) {
+    if (searchParams !== undefined && !isObject(searchParams)) {
       throw new Error("URL search params must be an object.");
     }
 
@@ -33,7 +33,11 @@ export class Proxy {
     }
 
     const url = new URL(path, this.baseUrl);
-    url.search = new URLSearchParams(searchParams).toString();
+    
+    // Only override search params if explicitly provided
+    if (searchParams !== undefined) {
+      url.search = new URLSearchParams(searchParams).toString();
+    }
 
     return url;
   }
