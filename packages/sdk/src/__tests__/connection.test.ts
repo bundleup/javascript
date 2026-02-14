@@ -1,18 +1,18 @@
-import { Connections } from "../connection";
+import { Connections } from '../connection';
 
 // Mock the global fetch function
 global.fetch = jest.fn();
 
-describe("Connections", () => {
+describe('Connections', () => {
   let connections: Connections;
-  const apiKey = "test-api-key";
+  const apiKey = 'test-api-key';
 
   beforeEach(() => {
     connections = new Connections(apiKey);
     jest.clearAllMocks();
   });
 
-  it("should have the correct namespace", async () => {
+  it('should have the correct namespace', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
@@ -21,22 +21,22 @@ describe("Connections", () => {
     await connections.list();
 
     const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
-    expect(callUrl.toString()).toContain("v1/connections");
+    expect(callUrl.toString()).toContain('v1/connections');
   });
 
-  it("should list connections", async () => {
+  it('should list connections', async () => {
     const mockData = [
       {
-        id: "1",
-        integrationId: "int_1",
+        id: '1',
+        integrationId: 'int_1',
         isValid: true,
         expiresAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        id: "2",
-        integrationId: "int_2",
+        id: '2',
+        integrationId: 'int_2',
         isValid: false,
         expiresAt: new Date(),
         createdAt: new Date(),
@@ -55,20 +55,20 @@ describe("Connections", () => {
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "GET",
+        method: 'GET',
         headers: expect.objectContaining({
           Authorization: `Bearer ${apiKey}`,
         }),
-      })
+      }),
     );
   });
 
-  it("should retrieve a specific connection", async () => {
+  it('should retrieve a specific connection', async () => {
     const mockData = {
-      id: "1",
-      integrationId: "int_1",
+      id: '1',
+      integrationId: 'int_1',
       isValid: true,
-      externalId: "ext_123",
+      externalId: 'ext_123',
       expiresAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -79,15 +79,15 @@ describe("Connections", () => {
       json: async () => mockData,
     });
 
-    const result = await connections.retrieve("1");
+    const result = await connections.retrieve('1');
 
     expect(result).toEqual(mockData);
   });
 
-  it("should create a connection", async () => {
+  it('should create a connection', async () => {
     const mockData = {
-      id: "1",
-      integrationId: "int_1",
+      id: '1',
+      integrationId: 'int_1',
       isValid: true,
       expiresAt: new Date(),
       createdAt: new Date(),
@@ -99,15 +99,15 @@ describe("Connections", () => {
       json: async () => mockData,
     });
 
-    const result = await connections.create({ integrationId: "int_1" });
+    const result = await connections.create({ integrationId: 'int_1' });
 
     expect(result).toEqual(mockData);
   });
 
-  it("should update a connection", async () => {
+  it('should update a connection', async () => {
     const mockData = {
-      id: "1",
-      integrationId: "int_1",
+      id: '1',
+      integrationId: 'int_1',
       isValid: false,
       expiresAt: new Date(),
       createdAt: new Date(),
@@ -119,23 +119,23 @@ describe("Connections", () => {
       json: async () => mockData,
     });
 
-    const result = await connections.update("1", { isValid: false });
+    const result = await connections.update('1', { isValid: false });
 
     expect(result).toEqual(mockData);
   });
 
-  it("should delete a connection", async () => {
+  it('should delete a connection', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
     });
 
-    await connections.del("1");
+    await connections.del('1');
 
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "DELETE",
-      })
+        method: 'DELETE',
+      }),
     );
   });
 });

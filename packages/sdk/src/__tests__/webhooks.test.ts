@@ -1,18 +1,18 @@
-import { Webhooks } from "../webhooks";
+import { Webhooks } from '../webhooks';
 
 // Mock the global fetch function
 global.fetch = jest.fn();
 
-describe("Webhooks", () => {
+describe('Webhooks', () => {
   let webhooks: Webhooks;
-  const apiKey = "test-api-key";
+  const apiKey = 'test-api-key';
 
   beforeEach(() => {
     webhooks = new Webhooks(apiKey);
     jest.clearAllMocks();
   });
 
-  it("should have the correct namespace", async () => {
+  it('should have the correct namespace', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
@@ -21,24 +21,24 @@ describe("Webhooks", () => {
     await webhooks.list();
 
     const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
-    expect(callUrl.toString()).toContain("v1/webhooks");
+    expect(callUrl.toString()).toContain('v1/webhooks');
   });
 
-  it("should list webhooks", async () => {
+  it('should list webhooks', async () => {
     const mockData = [
       {
-        id: "1",
-        name: "Connection Created",
-        url: "https://example.com/webhook",
-        events: { "connection.created": true },
+        id: '1',
+        name: 'Connection Created',
+        url: 'https://example.com/webhook',
+        events: { 'connection.created': true },
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        id: "2",
-        name: "Connection Updated",
-        url: "https://example.com/webhook2",
-        events: { "connection.updated": true },
+        id: '2',
+        name: 'Connection Updated',
+        url: 'https://example.com/webhook2',
+        events: { 'connection.updated': true },
         createdAt: new Date(),
         updatedAt: new Date(),
         lastTriggeredAt: new Date(),
@@ -56,20 +56,20 @@ describe("Webhooks", () => {
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "GET",
+        method: 'GET',
         headers: expect.objectContaining({
           Authorization: `Bearer ${apiKey}`,
         }),
-      })
+      }),
     );
   });
 
-  it("should retrieve a specific webhook", async () => {
+  it('should retrieve a specific webhook', async () => {
     const mockData = {
-      id: "1",
-      name: "Connection Created",
-      url: "https://example.com/webhook",
-      events: { "connection.created": true, "connection.deleted": false },
+      id: '1',
+      name: 'Connection Created',
+      url: 'https://example.com/webhook',
+      events: { 'connection.created': true, 'connection.deleted': false },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -79,17 +79,17 @@ describe("Webhooks", () => {
       json: async () => mockData,
     });
 
-    const result = await webhooks.retrieve("1");
+    const result = await webhooks.retrieve('1');
 
     expect(result).toEqual(mockData);
   });
 
-  it("should create a webhook", async () => {
+  it('should create a webhook', async () => {
     const mockData = {
-      id: "1",
-      name: "New Webhook",
-      url: "https://example.com/new-webhook",
-      events: { "connection.created": true },
+      id: '1',
+      name: 'New Webhook',
+      url: 'https://example.com/new-webhook',
+      events: { 'connection.created': true },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -100,31 +100,31 @@ describe("Webhooks", () => {
     });
 
     const result = await webhooks.create({
-      name: "New Webhook",
-      url: "https://example.com/new-webhook",
-      events: { "connection.created": true },
+      name: 'New Webhook',
+      url: 'https://example.com/new-webhook',
+      events: { 'connection.created': true },
     });
 
     expect(result).toEqual(mockData);
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
-          name: "New Webhook",
-          url: "https://example.com/new-webhook",
-          events: { "connection.created": true },
+          name: 'New Webhook',
+          url: 'https://example.com/new-webhook',
+          events: { 'connection.created': true },
         }),
-      })
+      }),
     );
   });
 
-  it("should update a webhook", async () => {
+  it('should update a webhook', async () => {
     const mockData = {
-      id: "1",
-      name: "Updated Webhook",
-      url: "https://example.com/updated-webhook",
-      events: { "connection.created": true, "connection.updated": true },
+      id: '1',
+      name: 'Updated Webhook',
+      url: 'https://example.com/updated-webhook',
+      events: { 'connection.created': true, 'connection.updated': true },
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -134,43 +134,43 @@ describe("Webhooks", () => {
       json: async () => mockData,
     });
 
-    const result = await webhooks.update("1", {
-      name: "Updated Webhook",
-      url: "https://example.com/updated-webhook",
-      events: { "connection.created": true, "connection.updated": true },
+    const result = await webhooks.update('1', {
+      name: 'Updated Webhook',
+      url: 'https://example.com/updated-webhook',
+      events: { 'connection.created': true, 'connection.updated': true },
     });
 
     expect(result).toEqual(mockData);
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "PATCH",
-      })
+        method: 'PATCH',
+      }),
     );
   });
 
-  it("should delete a webhook", async () => {
+  it('should delete a webhook', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
     });
 
-    await webhooks.del("1");
+    await webhooks.del('1');
 
     expect(global.fetch).toHaveBeenCalledWith(
       expect.any(URL),
       expect.objectContaining({
-        method: "DELETE",
-      })
+        method: 'DELETE',
+      }),
     );
   });
 
-  it("should filter webhooks by query parameters", async () => {
+  it('should filter webhooks by query parameters', async () => {
     const mockData = [
       {
-        id: "1",
-        name: "Active Webhook",
-        url: "https://example.com/webhook",
-        events: { "connection.created": true },
+        id: '1',
+        name: 'Active Webhook',
+        url: 'https://example.com/webhook',
+        events: { 'connection.created': true },
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -181,9 +181,9 @@ describe("Webhooks", () => {
       json: async () => mockData,
     });
 
-    await webhooks.list({ status: "active" });
+    await webhooks.list({ status: 'active' });
 
     const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
-    expect(callUrl.toString()).toContain("status=active");
+    expect(callUrl.toString()).toContain('status=active');
   });
 });

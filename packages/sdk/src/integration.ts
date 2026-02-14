@@ -1,4 +1,4 @@
-import { Base } from "./base";
+import { Base } from './base';
 
 interface Integration {
   id: string;
@@ -8,5 +8,5 @@ interface Integration {
 }
 
 export class Integrations extends Base<Integration> {
-  protected namespace = "integrations";
+  protected namespace = 'integrations';
 }

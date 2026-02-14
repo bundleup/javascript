@@ -1,4 +1,4 @@
-import { isObject } from "../utils";
+import { isObject } from '../utils';
 
 export interface Params {
   limit?: number;
@@ -15,35 +15,30 @@ export interface Response<T> {
 }
 
 export abstract class Base {
-  private baseUrl = "https://unify.bundleup.io";
-  private version = "v1";
+  private baseUrl = 'https://unify.bundleup.io';
+  private version = 'v1';
 
   protected abstract namespace: string;
 
   protected get headers(): Record<string, string> {
     return {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${this.apiKey}`,
-      "BU-Connection-Id": this.connectionId,
+      'BU-Connection-Id': this.connectionId,
     };
   }
 
-  protected buildUrl(
-    path?: string | null,
-    searchParams: Record<string, string> = {},
-  ): URL {
+  protected buildUrl(path?: string | null, searchParams: Record<string, string | number | undefined> = {}): URL {
     if (!isObject(searchParams)) {
-      throw new Error("URL search params must be an object.");
+      throw new Error('URL search params must be an object.');
     }
 
-    const parts = [this.version, this.namespace, path]
-      .filter(Boolean)
-      .join("/");
+    const parts = [this.version, this.namespace, path].filter(Boolean).join('/');
 
-    searchParams = Object.entries(searchParams).reduce(
+    const parsedSearchParams = Object.entries(searchParams).reduce(
       (acc, [key, value]) => {
         if (value !== undefined && value !== null) {
-          acc[key] = value;
+          acc[key] = value.toString();
         }
         return acc;
       },
@@ -51,7 +46,7 @@ export abstract class Base {
     );
 
     const url = new URL(parts, this.baseUrl);
-    url.search = new URLSearchParams(searchParams).toString();
+    url.search = new URLSearchParams(parsedSearchParams).toString();
 
     return url;
   }

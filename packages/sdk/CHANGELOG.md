@@ -1,5 +1,11 @@
 # @bundleup/sdk
 
+## 0.0.18
+
+### Patch Changes
+
+- remove query params
+
 ## 0.0.17
 
 ### Patch Changes

@@ -1,13 +1,13 @@
-import { isObject } from "./utils";
+import { isObject } from './utils';
 
 export class Proxy {
-  private baseUrl = "https://proxy.bundleup.io";
+  private baseUrl = 'https://proxy.bundleup.io';
 
   private get headers(): Record<string, string> {
     return {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${this.apiKey}`,
-      "BU-Connection-Id": this.connectionId,
+      'BU-Connection-Id': this.connectionId,
     };
   }
 
@@ -16,132 +16,104 @@ export class Proxy {
     private connectionId: string,
   ) {}
 
-  private buildUrl(
-    path: string,
-    searchParams: Record<string, string> = {},
-  ): URL {
+  private buildUrl(path: string): URL {
     if (!path) {
-      throw new Error("Path is required to build URL.");
+      throw new Error('Path is required to build URL.');
     }
 
-    if (!isObject(searchParams)) {
-      throw new Error("URL search params must be an object.");
-    }
-
-    if (!path.startsWith("/")) {
+    if (!path.startsWith('/')) {
       path = `/${path}`;
     }
 
     const url = new URL(path, this.baseUrl);
-    url.search = new URLSearchParams(searchParams).toString();
 
     return url;
   }
 
-  public get(
-    path: string,
-    searchParams: Record<string, string> = {},
-    headers: Record<string, string> = {},
-  ) {
+  public get(path: string, headers: Record<string, string> = {}) {
     if (!path) {
-      throw new Error("Path is required for GET request.");
+      throw new Error('Path is required for GET request.');
     }
 
     if (!isObject(headers)) {
-      throw new Error("Headers must be an object.");
+      throw new Error('Headers must be an object.');
     }
 
-    if (!isObject(searchParams)) {
-      throw new Error("URL search params must be an object.");
-    }
-
-    const url = this.buildUrl(path, searchParams);
+    const url = this.buildUrl(path);
 
     return fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: { ...this.headers, ...headers },
     });
   }
 
-  public post(
-    path: string,
-    body: BodyInit,
-    headers: Record<string, string> = {},
-  ) {
+  public post(path: string, body: BodyInit, headers: Record<string, string> = {}) {
     if (!path) {
-      throw new Error("Path is required for POST request.");
+      throw new Error('Path is required for POST request.');
     }
 
     if (!isObject(headers)) {
-      throw new Error("Headers must be an object.");
+      throw new Error('Headers must be an object.');
     }
 
     const url = this.buildUrl(path);
 
     return fetch(url, {
       body,
-      method: "POST",
+      method: 'POST',
       headers: { ...this.headers, ...headers },
     });
   }
 
-  public put(
-    path: string,
-    body: BodyInit,
-    headers: Record<string, string> = {},
-  ) {
+  public put(path: string, body: BodyInit, headers: Record<string, string> = {}) {
     if (!path) {
-      throw new Error("Path is required for PUT request.");
+      throw new Error('Path is required for PUT request.');
     }
 
     if (!isObject(headers)) {
-      throw new Error("Headers must be an object.");
+      throw new Error('Headers must be an object.');
     }
 
     const url = this.buildUrl(path);
 
     return fetch(url, {
       body,
-      method: "PUT",
+      method: 'PUT',
       headers: { ...this.headers, ...headers },
     });
   }
 
-  public patch(
-    path: string,
-    body: BodyInit,
-    headers: Record<string, string> = {},
-  ) {
+  public patch(path: string, body: BodyInit, headers: Record<string, string> = {}) {
     if (!path) {
-      throw new Error("Path is required for PATCH request.");
+      throw new Error('Path is required for PATCH request.');
     }
 
     if (!isObject(headers)) {
-      throw new Error("Headers must be an object.");
+      throw new Error('Headers must be an object.');
     }
 
     const url = this.buildUrl(path);
 
     return fetch(url, {
       body,
-      method: "PATCH",
+      method: 'PATCH',
       headers: { ...this.headers, ...headers },
     });
   }
 
   public delete(path: string, headers: Record<string, string> = {}) {
     if (!path) {
-      throw new Error("Path is required for DELETE request.");
+      throw new Error('Path is required for DELETE request.');
     }
 
     if (!isObject(headers)) {
-      throw new Error("Headers must be an object.");
+      throw new Error('Headers must be an object.');
     }
 
     const url = this.buildUrl(path);
 
     return fetch(url, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: { ...this.headers, ...headers },
     });
   }

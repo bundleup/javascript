@@ -1,7 +1,7 @@
-import { Base, type Params, type Response } from "./base";
+import { Base, type Params, type Response } from './base';
 
 export class PM extends Base {
-  protected namespace = "pm";
+  protected namespace = 'pm';
 
   /**
    * Fetch issues
@@ -11,19 +11,17 @@ export class PM extends Base {
    * @returns A promise that resolves to the fetch response.
    */
   async issues({ limit = 100, after, includeRaw }: Params = {}) {
-    const url = this.buildUrl("issues", { limit, after });
+    const url = this.buildUrl('issues', { limit, after });
 
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();

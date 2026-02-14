@@ -1,19 +1,19 @@
-import { Connections } from "./connection";
-import { Integrations } from "./integration";
-import { Webhooks } from "./webhooks";
-import { Proxy } from "./proxy";
+import { Connections } from './connection';
+import { Integrations } from './integration';
+import { Webhooks } from './webhooks';
+import { Proxy } from './proxy';
 
 // Unify API
-import { Chat } from "./unify/chat";
-import { Git } from "./unify/git";
-import { PM } from "./unify/pm";
+import { Chat } from './unify/chat';
+import { Git } from './unify/git';
+import { PM } from './unify/pm';
 
 export class BundleUp {
   private apiKey: string;
 
   constructor(apiKey: string) {
     if (!apiKey) {
-      throw new Error("API key is required to initialize BundleUp SDK.");
+      throw new Error('API key is required to initialize BundleUp SDK.');
     }
 
     this.apiKey = apiKey;
@@ -47,7 +47,7 @@ export class BundleUp {
    */
   proxy(connectionId: string) {
     if (!connectionId) {
-      throw new Error("Connection ID is required to create a Proxy instance.");
+      throw new Error('Connection ID is required to create a Proxy instance.');
     }
 
     return new Proxy(this.apiKey, connectionId);
@@ -60,7 +60,7 @@ export class BundleUp {
    */
   unify(connectionId: string) {
     if (!connectionId) {
-      throw new Error("Connection ID is required to create a Unify instance.");
+      throw new Error('Connection ID is required to create a Unify instance.');
     }
 
     return {

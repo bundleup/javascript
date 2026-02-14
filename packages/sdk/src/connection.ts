@@ -1,4 +1,4 @@
-import { Base } from "./base";
+import { Base } from './base';
 
 interface Connection {
   id: string;
@@ -12,5 +12,5 @@ interface Connection {
 }
 
 export class Connections extends Base<Connection> {
-  protected namespace = "connections";
+  protected namespace = 'connections';
 }

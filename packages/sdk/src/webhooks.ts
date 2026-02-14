@@ -1,4 +1,4 @@
-import { Base } from "./base";
+import { Base } from './base';
 
 interface Webhook {
   id: string;
@@ -11,5 +11,5 @@ interface Webhook {
 }
 
 export class Webhooks extends Base<Webhook> {
-  protected namespace = "webhooks";
+  protected namespace = 'webhooks';
 }

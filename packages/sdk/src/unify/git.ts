@@ -1,11 +1,11 @@
-import { Base, type Params, type Response } from "./base";
+import { Base, type Params, type Response } from './base';
 
 interface RepoParams extends Params {
   repoName: string;
 }
 
 export class Git extends Base {
-  protected namespace = "git";
+  protected namespace = 'git';
 
   /**
    * Fetch repositories
@@ -15,19 +15,17 @@ export class Git extends Base {
    * @returns A promise that resolves to the fetch response.
    */
   async repos({ limit = 100, after, includeRaw }: Params = {}) {
-    const url = this.buildUrl("repos", { limit, after });
+    const url = this.buildUrl('repos', { limit, after });
 
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -56,7 +54,7 @@ export class Git extends Base {
    */
   async pulls({ repoName, limit = 100, after, includeRaw }: RepoParams) {
     if (!repoName) {
-      throw new Error("repoName is required to fetch pulls.");
+      throw new Error('repoName is required to fetch pulls.');
     }
 
     const url = this.buildUrl(`repos/${encodeURIComponent(repoName)}/pulls`, {
@@ -67,14 +65,12 @@ export class Git extends Base {
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -106,7 +102,7 @@ export class Git extends Base {
    */
   async tags({ repoName, limit = 100, after, includeRaw }: RepoParams) {
     if (!repoName) {
-      throw new Error("repoName is required to fetch tags.");
+      throw new Error('repoName is required to fetch tags.');
     }
 
     const url = this.buildUrl(`repos/${encodeURIComponent(repoName)}/tags`, {
@@ -117,14 +113,12 @@ export class Git extends Base {
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();
@@ -147,28 +141,23 @@ export class Git extends Base {
    */
   async releases({ repoName, limit = 100, after, includeRaw }: RepoParams) {
     if (!repoName) {
-      throw new Error("repoName is required to fetch releases.");
+      throw new Error('repoName is required to fetch releases.');
     }
 
-    const url = this.buildUrl(
-      `repos/${encodeURIComponent(repoName)}/releases`,
-      {
-        limit,
-        after,
-      },
-    );
+    const url = this.buildUrl(`repos/${encodeURIComponent(repoName)}/releases`, {
+      limit,
+      after,
+    });
 
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();

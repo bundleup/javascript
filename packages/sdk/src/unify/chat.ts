@@ -1,7 +1,7 @@
-import { Base, type Params, type Response } from "./base";
+import { Base, type Params, type Response } from './base';
 
 export class Chat extends Base {
-  protected namespace = "chat";
+  protected namespace = 'chat';
 
   /**
    * Fetch chat channels
@@ -11,19 +11,17 @@ export class Chat extends Base {
    * @returns A promise that resolves to the fetch response.
    */
   async channels({ limit = 100, after, includeRaw }: Params = {}) {
-    const url = this.buildUrl("channels", { limit, after });
+    const url = this.buildUrl('channels', { limit, after });
 
     const response = await fetch(url, {
       headers: {
         ...this.headers,
-        "BU-Include-Raw": includeRaw ? "true" : "false",
+        'BU-Include-Raw': includeRaw ? 'true' : 'false',
       },
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url.toString()}: ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url.toString()}: ${response.statusText}`);
     }
 
     const data = await response.json();

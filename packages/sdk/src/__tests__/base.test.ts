@@ -1,27 +1,27 @@
-import { Base } from "../base";
+import { Base } from '../base';
 
 // Mock the global fetch function
 global.fetch = jest.fn();
 
 // Create a concrete implementation of Base for testing
 class TestBase extends Base<{ id: string; name: string }> {
-  protected namespace = "test";
+  protected namespace = 'test';
 }
 
-describe("Base", () => {
+describe('Base', () => {
   let testBase: TestBase;
-  const apiKey = "test-api-key";
+  const apiKey = 'test-api-key';
 
   beforeEach(() => {
     testBase = new TestBase(apiKey);
     jest.clearAllMocks();
   });
 
-  describe("list", () => {
-    it("should fetch a list of resources", async () => {
+  describe('list', () => {
+    it('should fetch a list of resources', async () => {
       const mockData = [
-        { id: "1", name: "Test 1" },
-        { id: "2", name: "Test 2" },
+        { id: '1', name: 'Test 1' },
+        { id: '2', name: 'Test 2' },
       ];
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -34,19 +34,19 @@ describe("Base", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
         expect.objectContaining({
-          method: "GET",
+          method: 'GET',
           headers: expect.objectContaining({
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           }),
-        })
+        }),
       );
       expect(result).toEqual(mockData);
     });
 
-    it("should pass search parameters to the URL", async () => {
-      const mockData = [{ id: "1", name: "Test 1" }];
-      const searchParams = { filter: "active", limit: "10" };
+    it('should pass search parameters to the URL', async () => {
+      const mockData = [{ id: '1', name: 'Test 1' }];
+      const searchParams = { filter: 'active', limit: '10' };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -56,30 +56,28 @@ describe("Base", () => {
       await testBase.list(searchParams);
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
-      expect(callUrl.toString()).toContain("filter=active");
-      expect(callUrl.toString()).toContain("limit=10");
+      expect(callUrl.toString()).toContain('filter=active');
+      expect(callUrl.toString()).toContain('limit=10');
     });
 
-    it("should throw an error if searchParams is not an object", async () => {
-      await expect(testBase.list("invalid" as any)).rejects.toThrow(
-        "List parameters must be an object."
-      );
+    it('should throw an error if searchParams is not an object', async () => {
+      await expect(testBase.list('invalid' as any)).rejects.toThrow('List parameters must be an object.');
     });
 
-    it("should throw an error if the fetch request fails", async () => {
+    it('should throw an error if the fetch request fails', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
-        statusText: "Not Found",
+        statusText: 'Not Found',
       });
 
-      await expect(testBase.list()).rejects.toThrow("Failed to fetch");
+      await expect(testBase.list()).rejects.toThrow('Failed to fetch');
     });
   });
 
-  describe("create", () => {
-    it("should create a new resource", async () => {
-      const mockData = { id: "1", name: "New Test" };
-      const body = { name: "New Test" };
+  describe('create', () => {
+    it('should create a new resource', async () => {
+      const mockData = { id: '1', name: 'New Test' };
+      const body = { name: 'New Test' };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -91,39 +89,35 @@ describe("Base", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
         expect.objectContaining({
-          method: "POST",
+          method: 'POST',
           headers: expect.objectContaining({
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           }),
           body: JSON.stringify(body),
-        })
+        }),
       );
       expect(result).toEqual(mockData);
     });
 
-    it("should throw an error if body is not an object", async () => {
-      await expect(testBase.create("invalid" as any)).rejects.toThrow(
-        "Request body must be an object."
-      );
+    it('should throw an error if body is not an object', async () => {
+      await expect(testBase.create('invalid' as any)).rejects.toThrow('Request body must be an object.');
     });
 
-    it("should throw an error if the fetch request fails", async () => {
+    it('should throw an error if the fetch request fails', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
-        statusText: "Bad Request",
+        statusText: 'Bad Request',
       });
 
-      await expect(testBase.create({ name: "Test" })).rejects.toThrow(
-        "Failed to create"
-      );
+      await expect(testBase.create({ name: 'Test' })).rejects.toThrow('Failed to create');
     });
   });
 
-  describe("retrieve", () => {
-    it("should retrieve a specific resource by ID", async () => {
-      const mockData = { id: "1", name: "Test 1" };
-      const id = "1";
+  describe('retrieve', () => {
+    it('should retrieve a specific resource by ID', async () => {
+      const mockData = { id: '1', name: 'Test 1' };
+      const id = '1';
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -135,12 +129,12 @@ describe("Base", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
         expect.objectContaining({
-          method: "GET",
+          method: 'GET',
           headers: expect.objectContaining({
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           }),
-        })
+        }),
       );
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
@@ -148,29 +142,25 @@ describe("Base", () => {
       expect(result).toEqual(mockData);
     });
 
-    it("should throw an error if ID is not provided", async () => {
-      await expect(testBase.retrieve("")).rejects.toThrow(
-        "ID is required to retrieve a resource."
-      );
+    it('should throw an error if ID is not provided', async () => {
+      await expect(testBase.retrieve('')).rejects.toThrow('ID is required to retrieve a resource.');
     });
 
-    it("should throw an error if the fetch request fails", async () => {
+    it('should throw an error if the fetch request fails', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
-        statusText: "Not Found",
+        statusText: 'Not Found',
       });
 
-      await expect(testBase.retrieve("1")).rejects.toThrow(
-        "Failed to retrieve"
-      );
+      await expect(testBase.retrieve('1')).rejects.toThrow('Failed to retrieve');
     });
   });
 
-  describe("update", () => {
-    it("should update a specific resource by ID", async () => {
-      const mockData = { id: "1", name: "Updated Test" };
-      const id = "1";
-      const body = { name: "Updated Test" };
+  describe('update', () => {
+    it('should update a specific resource by ID', async () => {
+      const mockData = { id: '1', name: 'Updated Test' };
+      const id = '1';
+      const body = { name: 'Updated Test' };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -182,13 +172,13 @@ describe("Base", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
         expect.objectContaining({
-          method: "PATCH",
+          method: 'PATCH',
           headers: expect.objectContaining({
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           }),
           body: JSON.stringify(body),
-        })
+        }),
       );
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
@@ -196,33 +186,27 @@ describe("Base", () => {
       expect(result).toEqual(mockData);
     });
 
-    it("should throw an error if ID is not provided", async () => {
-      await expect(testBase.update("", { name: "Test" })).rejects.toThrow(
-        "ID is required to update a resource."
-      );
+    it('should throw an error if ID is not provided', async () => {
+      await expect(testBase.update('', { name: 'Test' })).rejects.toThrow('ID is required to update a resource.');
     });
 
-    it("should throw an error if body is not an object", async () => {
-      await expect(testBase.update("1", "invalid" as any)).rejects.toThrow(
-        "Request body must be an object."
-      );
+    it('should throw an error if body is not an object', async () => {
+      await expect(testBase.update('1', 'invalid' as any)).rejects.toThrow('Request body must be an object.');
     });
 
-    it("should throw an error if the fetch request fails", async () => {
+    it('should throw an error if the fetch request fails', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
-        statusText: "Bad Request",
+        statusText: 'Bad Request',
       });
 
-      await expect(testBase.update("1", { name: "Test" })).rejects.toThrow(
-        "Failed to update"
-      );
+      await expect(testBase.update('1', { name: 'Test' })).rejects.toThrow('Failed to update');
     });
   });
 
-  describe("del", () => {
-    it("should delete a specific resource by ID", async () => {
-      const id = "1";
+  describe('del', () => {
+    it('should delete a specific resource by ID', async () => {
+      const id = '1';
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -233,36 +217,34 @@ describe("Base", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         expect.any(URL),
         expect.objectContaining({
-          method: "DELETE",
+          method: 'DELETE',
           headers: expect.objectContaining({
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           }),
-        })
+        }),
       );
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
       expect(callUrl.toString()).toContain(id);
     });
 
-    it("should throw an error if ID is not provided", async () => {
-      await expect(testBase.del("")).rejects.toThrow(
-        "ID is required to delete a resource."
-      );
+    it('should throw an error if ID is not provided', async () => {
+      await expect(testBase.del('')).rejects.toThrow('ID is required to delete a resource.');
     });
 
-    it("should throw an error if the fetch request fails", async () => {
+    it('should throw an error if the fetch request fails', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: false,
-        statusText: "Not Found",
+        statusText: 'Not Found',
       });
 
-      await expect(testBase.del("1")).rejects.toThrow("Failed to delete");
+      await expect(testBase.del('1')).rejects.toThrow('Failed to delete');
     });
   });
 
-  describe("URL building", () => {
-    it("should build the correct URL structure", async () => {
+  describe('URL building', () => {
+    it('should build the correct URL structure', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => [],
@@ -271,13 +253,13 @@ describe("Base", () => {
       await testBase.list();
 
       const callUrl = (global.fetch as jest.Mock).mock.calls[0][0];
-      expect(callUrl.toString()).toContain("https://api.bundleup.io");
-      expect(callUrl.toString()).toContain("v1/test");
+      expect(callUrl.toString()).toContain('https://api.bundleup.io');
+      expect(callUrl.toString()).toContain('v1/test');
     });
   });
 
-  describe("headers", () => {
-    it("should include the correct authorization header", async () => {
+  describe('headers', () => {
+    it('should include the correct authorization header', async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: async () => [],
@@ -291,7 +273,7 @@ describe("Base", () => {
           headers: expect.objectContaining({
             Authorization: `Bearer ${apiKey}`,
           }),
-        })
+        }),
       );
     });
   });
